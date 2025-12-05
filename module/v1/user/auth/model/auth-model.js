@@ -100,7 +100,7 @@ const AuthModel = {
                 res.cookie("user_token", token, {
                     httpOnly: true,
                     secure: true,
-                    sameSite: "Strict",
+                    sameSite: "none",
                     maxAge: 24 * 60 * 60 * 1000,
                 });
 
@@ -161,7 +161,7 @@ const AuthModel = {
                 res.cookie("user_token", token, {
                     httpOnly: true,
                     secure: true,
-                    sameSite: "Strict",
+                    sameSite: "none",
                     maxAge: 24 * 60 * 60 * 1000,
                 });
                 return middleware.sendResponse(req, res, 200, ResponseCode.SUCCESS, {
@@ -347,7 +347,7 @@ const AuthModel = {
                 res.cookie("user_token", token, {
                     httpOnly: true,
                     secure: true,
-                    sameSite: "Strict",
+                    sameSite: "none",
                     maxAge: 24 * 60 * 60 * 1000,
                 });
 
