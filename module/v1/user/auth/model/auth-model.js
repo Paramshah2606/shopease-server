@@ -97,12 +97,12 @@ const AuthModel = {
                 Common.updateTokenInDb(user_id, user_token);
                 const token = Common.encrypt(user_token);
 
-                res.cookie("user_token", token, {
-                    httpOnly: true,
-                    secure: true,
-                    sameSite: "none",
-                    maxAge: 24 * 60 * 60 * 1000,
-                });
+                // res.cookie("user_token", token, {
+                //     httpOnly: true,
+                //     secure: true,
+                //     sameSite: "none",
+                //     maxAge: 24 * 60 * 60 * 1000,
+                // });
 
                 return res.redirect("http://localhost:3000/social-login-success");
             }
@@ -158,15 +158,15 @@ const AuthModel = {
                 Common.updateTokenInDb(user_id, user_token);
                 const token = Common.encrypt(user_token);
 
-                res.cookie("user_token", token, {
-                    httpOnly: true,
-                    secure: true,
-                    sameSite: "none",
-                    maxAge: 24 * 60 * 60 * 1000,
-                });
+                // res.cookie("user_token", token, {
+                //     httpOnly: true,
+                //     secure: true,
+                //     sameSite: "none",
+                //     maxAge: 24 * 60 * 60 * 1000,
+                // });
                 return middleware.sendResponse(req, res, 200, ResponseCode.SUCCESS, {
                     keyword: "profile_photo_uploaded",
-                });
+                },{user_token:token});
             } else {
                 return middleware.sendResponse(req, res, 200, ResponseCode.ERROR, {
                     keyword: "access_denied",
@@ -344,12 +344,12 @@ const AuthModel = {
 
                 const token = Common.encrypt(user_token);
 
-                res.cookie("user_token", token, {
-                    httpOnly: true,
-                    secure: true,
-                    sameSite: "none",
-                    maxAge: 24 * 60 * 60 * 1000,
-                });
+                // res.cookie("user_token", token, {
+                //     httpOnly: true,
+                //     secure: true,
+                //     sameSite: "none",
+                //     maxAge: 24 * 60 * 60 * 1000,
+                // });
 
                 if(social_id){
                     return res.redirect("http://localhost:3000/social-login-success");
@@ -362,7 +362,7 @@ const AuthModel = {
                     200,
                     ResponseCode.SUCCESS,
                     { keyword: "login_normal_success" },
-                    { signup_step }
+                    { signup_step,user_token:token }
                 );
             }
         } catch (error) {
