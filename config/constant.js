@@ -11,6 +11,7 @@ module.exports = {
     mailer_password:'giao hddk whhd agcc',
     from_email:"paramshah2606@gmail.com",
     PORT:process.env.PORT,
+    DB_Port:process.env.DB_PORT,
     DB_Password:process.env.DB_Password,
     DB_Database:process.env.DB_Database,
     DB_User:process.env.DB_User,
