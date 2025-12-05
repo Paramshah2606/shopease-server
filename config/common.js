@@ -208,7 +208,7 @@ const Common= {
             return false;
         }
     },
-    async updateTokenInDb(user_id,user_token,role){
+    async updateTokenInDb(user_id,user_token,role="user"){
         try {
             console.log("hii");
             let existingEntry=await Common.executeQuery("SELECT id FROM tbl_device WHERE user_id=? AND is_active=1 AND is_deleted=0",[user_id]);
