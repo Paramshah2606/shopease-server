@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Prep it enc</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .encdec_form {
+            background: #fff;
+            padding: 2.5rem 2rem 2rem 2rem;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            margin-top: 60px;
+            margin-bottom: 60px;
+            animation: fadeIn 0.7s;
+            max-width: 900px;
+            width: 100%;
+        }
+        .form-header {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+        }
+        .form-desc {
+            text-align: center;
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+        .form-group label {
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+        .form-control, textarea {
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            transition: border-color 0.2s;
+            font-size: 1.1rem;
+        }
+        .form-control:focus, textarea:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 2px #6366f122;
+        }
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .form_btn {
+            width: 100%;
+            padding: 0.7rem 0;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #6366f1 60%, #818cf8 100%);
+            border: none;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 2px 8px rgba(99,102,241,0.07);
+            font-weight: 600;
+        }
+        .form_btn:hover {
+            background: linear-gradient(90deg, #818cf8 60%, #6366f1 100%);
+            transform: translateY(-2px) scale(1.02);
+        }
+        .result-section {
+            margin-top: 2.5rem;
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 1.5rem 1rem 1rem 1rem;
+            box-shadow: 0 2px 8px rgba(99,102,241,0.03);
+        }
+        .result-label {
+            font-weight: 600;
+            color: #6366f1;
+            margin-bottom: 0.3rem;
+        }
+        .result-block {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        code, pre {
+            font-family: Consolas, Monaco, 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #0f172a;
+            display: block;
+            margin: 0.5rem 0 0.5rem 0;
+            padding: 12px 10px 12px 44px;
+            border-radius: 6px;
+            word-break: break-all;
+            white-space: pre-wrap;
+        }
+        .copy-btn{
+            background-color: #6366f1;
+            width: 80px;
+            color: #fff;
+            padding: 5px;
+            border-radius: 10%;
+        }
+        .copy-btn.copied {
+            background: #22c55e;
+            color: #fff;
+            width: 80px;
+        }
+        @media (max-width: 991px) {
+            .encdec_form { max-width: 98vw; }
+        }
+        @media (max-width: 575px) {
+            .encdec_form {
+                padding: 1.2rem 0.7rem;
+                margin-top: 30px;
+            }
+            .copy-btn { left: 6px; top: 6px; }
+            code, pre { padding-left: 38px; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+<div class="container d-flex justify-content-center">
+    <div class="encdec_form">
+        <div class="form-header">Encryption & Decryption Tool</div>
+        <div class="form-desc">
+            Paste your text below to encrypt or decrypt. Choose the operation and hit submit!
+        </div>
+        <form id="encdec_form" action="/enc-dec" method="POST" autocomplete="off">
+            <div class="form-group">
+                <label for="data">Text for Encryption/Decryption</label>
+                <textarea name="data" id="data" class="form-control" required cols="90" rows="6"><%= typeof input !== 'undefined' ? input : '' %></textarea>
+            </div>
+            <div class="form-group d-flex align-items-center">
+                <label class="mr-3 mb-0">Type</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="type" id="encrypt" value="encrypt" <%= type === 'encrypt' ? 'checked' : '' %> required>
+                    <label class="form-check-label" for="encrypt">Encrypt</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="type" id="decrypt" value="decrypt" <%= type === 'decrypt' ? 'checked' : '' %> required>
+                    <label class="form-check-label" for="decrypt">Decrypt</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-group-lg form_btn">Submit</button>
+        </form>
+
+        <% if (typeof result !== 'undefined' && result !== '' && result !== null) { %>
+            <div class="result-section mt-12">
+                <% if (type === 'encrypt') { %>
+                    <div class="d-flex justify-content-between">
+                    <div class="result-label mb-1">Encrypted:</div>
+                    <div><button class="copy-btn" type="button" data-copy-target="encrypted-result">Copy</button></div>
+                    </div>
+                    <div class="result-block">
+                        <code id="encrypted-result"><%= result %></code>
+                    </div>
+                    <div class="result-label mb-1">Original:</div>
+                    <div class="result-block">
+                        <code><%= input %></code>
+                    </div>
+                <% } else if (type === 'decrypt') { %>
+                    <div class="result-label mb-1">Encrypted:</div>
+                    <div class="result-block">
+                        <code><%= input %></code>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                    <div class="result-label mb-1">Decrypted:</div>
+                    <div><button class="copy-btn" type="button" data-copy-target="decrypted-result">Copy</button></div>
+                    </div>
+                    <div class="result-block">
+                        <% if (typeof result === 'object') { %>
+                            <pre id="decrypted-result"><%= JSON.stringify(result, null, 2) %></pre>
+                        <% } else { %>
+                            <code id="decrypted-result"><%= result %></code>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+</div>
+<script>
+    // Copy button logic with feedback
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetId = btn.getAttribute('data-copy-target');
+            const el = document.getElementById(targetId);
+            if (el) {
+                const text = el.innerText || el.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    btn.classList.add('copied');
+                    btn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        btn.classList.remove('copied');
+                        btn.textContent = 'Copy';
+                    }, 1200);
+                });
+            }
+        });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

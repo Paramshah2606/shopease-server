@@ -1,0 +1,21 @@
+const ResponseCode = {
+  SUCCESS: 1,
+  INTERNAL_ERROR: 0,
+  VALIDATION_ERROR: 0,
+  UNAUTHORIZED: -1,
+  INACTIVE: 3,
+  NOT_FOUND: 2,
+  BAD_REQUEST: 0,
+  USER_NOT_REGISTERED:12,
+  INVALID_SOCIAL_ID:11,
+  AdMIN_APPROVED_REJECT: 300,
+
+  UNAUTHORIZED_CODE: 401,
+  ERROR: 0,
+  DUPLICATE_VALUE: 409,
+  otpVerify: 3,
+  completeProfile: 4,
+  VERIFICATION_PENDING: 10,
+};
+
+module.exports = ResponseCode;
