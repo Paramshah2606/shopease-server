@@ -9,7 +9,7 @@ const port = constant.PORT || 8080;
 const common=require("./config/common.js");
 const path = require('path');
 const cookieParser = require('cookie-parser');
-
+app.set("trust proxy", 1);
 app.use(cors({
   origin: true,            
   credentials: true         
