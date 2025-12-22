@@ -73,8 +73,9 @@ const middleware = {
       if (bypass.includes(splitedReqPath) || bypass.includes(splitedReqPathAdmin)) {
         return next();
       }
-
-      let token = req.headers["user-token"] || req.headers["admin-token"] || req.cookies.user_token;
+      console.log(req.headers);
+      let token = req.headers["user-token"] || req.headers["admin-token"];
+      // let token = req.cookies.user_token;
 
       if (!token) {
         return middleware.sendResponse(req, res, 401, ResponseCode.ERROR, {
