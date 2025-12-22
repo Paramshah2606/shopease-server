@@ -74,8 +74,8 @@ const middleware = {
         return next();
       }
 
-      // let token = req.headers["user-token"] || req.headers["admin-token"];
-      let token = req.cookies.user_token;
+      let token = req.headers["user-token"] || req.headers["admin-token"] || req.cookies.user_token;
+
       if (!token) {
         return middleware.sendResponse(req, res, 401, ResponseCode.ERROR, {
           keyword: "missing_token",
